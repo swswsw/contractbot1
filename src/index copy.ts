@@ -9,8 +9,7 @@ let messageContents:string[] = [];
 // New function to make a POST request to the GPT service
 async function callGPTService(input: string): Promise<string> {
   try {
-    console.log(`text to send:\n${input}`);
-    const response = await axios.post('http://localhost:4545/gptcall', { "input": input });
+    const response = await axios.post('http://localhost:4545/gptcall', { input });
     return response.data;
   } catch (error) {
     console.error('Error calling GPT service:', error);
@@ -49,7 +48,7 @@ located at 9876 Cherry Avenue, Apartment 426 under the following terms and condi
 
   // New condition to call the GPT service
   if (content.content.toLowerCase().includes("software service contract") || content.content.toLowerCase().includes("penetration test")) {
-    const gptResponse = await callGPTService(`Mike: I need a software service contract on penetration test on our developing product.`);
+    const gptResponse = await callGPTService(`Mike: ${content.content}`);
     await context.send(gptResponse);
   }
 
