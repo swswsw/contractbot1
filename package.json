@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@xmtp/message-kit": "latest",
+    "axios": "^1.7.7",
     "openai": "^4.68.1"
   },
   "devDependencies": {
