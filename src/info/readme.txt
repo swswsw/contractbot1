@@ -1,0 +1,1 @@
+xmtp/contractbot1/node_modules/@xmtp/message-kit/dist/index.js
