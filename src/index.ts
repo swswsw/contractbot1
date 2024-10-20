@@ -129,8 +129,15 @@ async function walrusUpload(): Promise<string> {
         'Content-Type': 'application/json'
       }
     });
-    console.log(`walrus upload response: ${response.data}`);
-    let blobId = response.data.data.alreadyCertified.blobId;
+    let blobId = ""
+    console.log(`walrus upload response: ${JSON.stringify(response.data)}`);
+    //let blobId = response.data.data.alreadyCertified.blobId;
+    if (response.data.data.newlyCreated && response.data.data.newlyCreated.blobObject) {
+      blobId = response.data.data.newlyCreated.blobObject.blobId;
+    } else if (response.data.data.alreadyCertified) {
+      blobId = response.data.data.alreadyCertified.blobId;
+    }
+    
     return blobId;
   } catch (error) {
     console.error('Error walrus-upload:', error);
