@@ -76,6 +76,9 @@ located at 9876 Cherry Avenue, Apartment 426 under the following terms and condi
   if (content.content.toLowerCase() == "/generate contract") {
     const pdfLocation =await encryptPdf();
     await context.send(pdfLocation);
+  } else if (content.content.toLowerCase().includes("/deploy") {
+    let deployLink = "https://tinyurl.com/247x9tsw";
+    await context.reply(deployLink);
   }
 
   //To reply, just call `reply` on the HandlerContext.
