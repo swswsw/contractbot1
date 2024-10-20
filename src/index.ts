@@ -45,7 +45,7 @@ run(async (context: HandlerContext) => {
     messageContents = [];
     
     // To reply, just call `reply` on the HandlerContext.
-    await context.reply(`New conversation started!!!  :)`);
+    await context.send(`New conversation started!!!  :)`);
   }
 
   if (content.content.toLowerCase() == "/contractnow" || content.content.toLowerCase() == "Please create a contract now") {
@@ -55,12 +55,12 @@ located at 9876 Cherry Avenue, Apartment 426 under the following terms and condi
   }
 
   // New condition to call the GPT service
-  if (content.content.toLowerCase() == "/contract" || content.content.toLowerCase() == "Please create a contract") {
+  if (content.content.toLowerCase() == "/contractplus" || content.content.toLowerCase() == "Software service contract") {
     const gptResponse = await callGPTService(`Mike: I need a software service contract on penetration test on our developing product.`);
     await context.send(gptResponse);
   }
 
-  if (content.content.toLowerCase() == "/contractplus" || content.content.toLowerCase().includes("Software service contract") || content.content.toLowerCase().includes("please create a contract based on the conversation")) {
+  if (content.content.toLowerCase() == "/contract" || content.content.toLowerCase().includes("Please create a contract") || content.content.toLowerCase().includes("please create a contract based on the conversation")) {
 
     // Call the function to flatten messages
     const flattenedMessages = flattenMessages(messages);
@@ -75,13 +75,13 @@ located at 9876 Cherry Avenue, Apartment 426 under the following terms and condi
 
   if (content.content.toLowerCase() == "/generate contract") {
     const encryptPdfResponse = await encryptPdf();
-    await context.reply(`decryption key: ${encryptPdfResponse.password}`);
+    await context.send(`decryption key: ${encryptPdfResponse.password}`);
     await context.send(`Encrypted contract PDF: ${encryptPdfResponse.encryptedFileLink}`);
   } else if (content.content.toLowerCase().includes("/deploy")) {
     console.log("deploying contract");
     let blobId = await walrusUpload();
     let walrusLink = `https://walruscan.com/testnet/blob/${blobId}`;
-    await context.reply(`Upload encrypted PDF to: ${walrusLink}`);
+    await context.send(`Upload encrypted PDF to: ${walrusLink}`);
     let deployLink = "https://tinyurl.com/247x9tsw";
     await context.send(`Deploy smart contract: ${deployLink}`);
   } else if (content.content.toLowerCase().includes("/sign")) {
