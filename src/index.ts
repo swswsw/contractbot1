@@ -83,7 +83,7 @@ located at 9876 Cherry Avenue, Apartment 426 under the following terms and condi
     await context.reply(walrusLink);
     let deployLink = "https://tinyurl.com/247x9tsw";
     await context.send(deployLink);
-  } else if (content.content.toLowerCase() == "/sign") {
+  } else if (content.content.toLowerCase().includes("/sign")) {
     let signLink = "https://tinyurl.com/247x9tsw";
     await context.send(signLink);
   }
