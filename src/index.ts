@@ -98,7 +98,8 @@ async function encryptPdf(): Promise<string> {
       }
     });
 
-    return response.data;
+    let encryptedFileLink = "https://shorturl.at/PDMMU";// "http://localhost:4545/encrypted_contract.pdf"; // response.data;
+    return encryptedFileLink;
   } catch (error) {
     console.error('Error encrypting PDF:', error);
     throw error;
