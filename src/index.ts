@@ -74,18 +74,19 @@ located at 9876 Cherry Avenue, Apartment 426 under the following terms and condi
   }
 
   if (content.content.toLowerCase() == "/generate contract") {
-    const pdfLocation =await encryptPdf();
-    await context.send(pdfLocation);
+    const encryptPdfResponse = await encryptPdf();
+    await context.reply(`decryption key: ${encryptPdfResponse.password}`);
+    await context.send(`Encrypted contract PDF: ${encryptPdfResponse.encryptedFileLink}`);
   } else if (content.content.toLowerCase().includes("/deploy")) {
     console.log("deploying contract");
     let blobId = await walrusUpload();
     let walrusLink = `https://walruscan.com/testnet/blob/${blobId}`;
-    await context.reply(walrusLink);
+    await context.reply(`Upload encrypted PDF to: ${walrusLink}`);
     let deployLink = "https://tinyurl.com/247x9tsw";
-    await context.send(deployLink);
+    await context.send(`Deploy smart contract: ${deployLink}`);
   } else if (content.content.toLowerCase().includes("/sign")) {
     let signLink = "https://tinyurl.com/247x9tsw";
-    await context.send(signLink);
+    await context.send(`Sign contract: ${signLink}`);
   }
 
   //To reply, just call `reply` on the HandlerContext.
@@ -99,17 +100,22 @@ function flattenMessages(messages: any[]): string {
   ).slice(0, -1).join('\n\n');
 }
 
+interface EncryptPdfResponse {
+  password: string;
+  encryptedFileLink: string;
+}
+
 // Function to call the encrypt PDF endpoint using axios
-async function encryptPdf(): Promise<string> {
+async function encryptPdf(): Promise<EncryptPdfResponse> {
   try {
     const response = await axios.get('http://localhost:4545/encryptpdf', {
       headers: {
         'Content-Type': 'text/plain'
       }
     });
-
+    let password = response.data;
     let encryptedFileLink = "https://shorturl.at/PDMMU";// "http://localhost:4545/encrypted_contract.pdf"; // response.data;
-    return encryptedFileLink;
+    return { "password": password, "encryptedFileLink": encryptedFileLink };
   } catch (error) {
     console.error('Error encrypting PDF:', error);
     throw error;
@@ -131,6 +137,5 @@ async function walrusUpload(): Promise<string> {
     throw error;
   }
 }
-
 
 
