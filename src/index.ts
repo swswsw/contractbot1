@@ -76,9 +76,13 @@ located at 9876 Cherry Avenue, Apartment 426 under the following terms and condi
   if (content.content.toLowerCase() == "/generate contract") {
     const pdfLocation =await encryptPdf();
     await context.send(pdfLocation);
-  } else if (content.content.toLowerCase().includes("/deploy") {
+  } else if (content.content.toLowerCase().includes("/deploy")) {
+    console.log("deploying contract");
+    let blobId = await walrusUpload();
+    let walrusLink = `https://walruscan.com/testnet/blob/${blobId}`;
+    await context.reply(walrusLink);
     let deployLink = "https://tinyurl.com/247x9tsw";
-    await context.reply(deployLink);
+    await context.send(deployLink);
   }
 
   //To reply, just call `reply` on the HandlerContext.
@@ -105,6 +109,22 @@ async function encryptPdf(): Promise<string> {
     return encryptedFileLink;
   } catch (error) {
     console.error('Error encrypting PDF:', error);
+    throw error;
+  }
+}
+
+async function walrusUpload(): Promise<string> {
+  try {
+    const response = await axios.get('http://localhost:4545/walrus-upload', {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    console.log(`walrus upload response: ${response.data}`);
+    let blobId = response.data.data.alreadyCertified.blobId;
+    return blobId;
+  } catch (error) {
+    console.error('Error walrus-upload:', error);
     throw error;
   }
 }
