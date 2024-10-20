@@ -82,10 +82,10 @@ located at 9876 Cherry Avenue, Apartment 426 under the following terms and condi
     let blobId = await walrusUpload();
     let walrusLink = `https://walruscan.com/testnet/blob/${blobId}`;
     await context.send(`Upload encrypted PDF to: ${walrusLink}`);
-    let deployLink = "https://tinyurl.com/247x9tsw";
+    let deployLink = "https://shorturl.at/kvQAA";
     await context.send(`Deploy smart contract: ${deployLink}`);
   } else if (content.content.toLowerCase().includes("/sign")) {
-    let signLink = "https://tinyurl.com/247x9tsw";
+    let signLink = "https://shorturl.at/SVGRu";
     await context.send(`Sign contract: ${signLink}`);
   }
 
