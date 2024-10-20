@@ -29,8 +29,8 @@ run(async (context: HandlerContext) => {
   // Get the message and the address from the sender
   const { content, sender } = context.message;
 
-  console.log('Sender:', sender, 'Content:', content);
-  //console.log(content.content);
+  //console.log('Sender:', sender, 'Content:', content);
+  console.log(content.content);
 
   // Save the message content in the array
   messages.push(context.message);
@@ -73,6 +73,11 @@ located at 9876 Cherry Avenue, Apartment 426 under the following terms and condi
     await context.send(gptResponse);
   }
 
+  if (content.content.toLowerCase() == "/generate contract") {
+    const pdfLocation =await encryptPdf();
+    await context.send(pdfLocation);
+  }
+
   //To reply, just call `reply` on the HandlerContext.
   //await context.send(`gm`);
 });
@@ -83,3 +88,22 @@ function flattenMessages(messages: any[]): string {
     `${userMap[msg.sender.address as keyof typeof userMap] || msg.sender.address}: ${msg.content.content}`
   ).slice(0, -1).join('\n\n');
 }
+
+// Function to call the encrypt PDF endpoint using axios
+async function encryptPdf(): Promise<string> {
+  try {
+    const response = await axios.get('http://localhost:4545/encryptpdf', {
+      headers: {
+        'Content-Type': 'text/plain'
+      }
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Error encrypting PDF:', error);
+    throw error;
+  }
+}
+
+
+
